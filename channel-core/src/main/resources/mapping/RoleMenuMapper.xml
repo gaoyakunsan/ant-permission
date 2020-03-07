@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gao.channelcore.business.dao.RoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.gao.channelcore.pojo.RoleMenu">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="role_id" property="roleId" jdbcType="INTEGER"/>
+    <result column="menu_id" property="menuId" jdbcType="INTEGER"/>
+    <result column="inserttime" property="inserttime" jdbcType="TIMESTAMP"/>
+    <result column="insertby" property="insertby" jdbcType="VARCHAR"/>
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+    <result column="updateby" property="updateby" jdbcType="VARCHAR"/>
+    <result column="isactive" property="isactive" jdbcType="BIT"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, role_id, menu_id, inserttime, insertby, updatetime, updateby, isactive
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from role_menu_link
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectRoleMenuByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from role_menu_link
+    where isactive = 1
+    <if test="roleId != null">
+      and role_id = #{roleId}
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from role_menu_link
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gao.channelcore.pojo.RoleMenu">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role_menu_link (role_id, menu_id, inserttime,
+    insertby, updatetime, updateby,
+    isactive)
+    values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{inserttime,jdbcType=TIMESTAMP},
+    #{insertby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR},
+    #{isactive,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gao.channelcore.pojo.RoleMenu">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role_menu_link
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="inserttime != null">
+        inserttime,
+      </if>
+      <if test="insertby != null">
+        insertby,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="updateby != null">
+        updateby,
+      </if>
+      <if test="isactive != null">
+        isactive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null">
+        #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null">
+        #{isactive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByRoleId" parameterType="java.lang.Integer">
+    update role_menu_link set isactive = 0 where role_id = #{roleId}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.gao.channelcore.pojo.RoleMenu">
+    update role_menu_link
+    set role_id = #{roleId,jdbcType=INTEGER},
+      menu_id = #{menuId,jdbcType=INTEGER},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      insertby = #{insertby,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      updateby = #{updateby,jdbcType=VARCHAR},
+      isactive = #{isactive,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

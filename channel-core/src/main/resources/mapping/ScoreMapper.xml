@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gao.channelcore.business.dao.ScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.gao.channelcore.pojo.Score" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="age" property="age" jdbcType="REAL" />
+    <result column="height" property="height" jdbcType="REAL" />
+    <result column="weight" property="weight" jdbcType="REAL" />
+    <result column="zfp" property="zfp" jdbcType="REAL" />
+    <result column="zfp_score" property="zfpScore" jdbcType="INTEGER" />
+    <result column="ldty" property="ldty" jdbcType="REAL" />
+    <result column="ldty_score" property="ldtyScore" jdbcType="INTEGER" />
+    <result column="wqty" property="wqty" jdbcType="REAL" />
+    <result column="wqty_score" property="wqtyScore" jdbcType="INTEGER" />
+    <result column="lxt" property="lxt" jdbcType="REAL" />
+    <result column="lxt_score" property="lxtScore" jdbcType="INTEGER" />
+    <result column="tqq" property="tqq" jdbcType="REAL" />
+    <result column="tqq_score" property="tqqScore" jdbcType="INTEGER" />
+    <result column="phm" property="phm" jdbcType="REAL" />
+    <result column="phm_score" property="phmScore" jdbcType="INTEGER" />
+    <result column="total_score" property="totalScore" jdbcType="INTEGER" />
+    <result column="avg_score" property="avgScore" jdbcType="REAL" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="isactive" property="isactive" jdbcType="BIT" />
+    <result column="inserttime" property="inserttime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="insertby" property="insertby" jdbcType="VARCHAR" />
+    <result column="updateby" property="updateby" jdbcType="VARCHAR" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, school_id, `name`, sex, age, height, weight, zfp, zfp_score, ldty, ldty_score,
+    wqty, wqty_score, lxt, lxt_score, tqq, tqq_score, phm, phm_score,total_score, avg_score, `level`,
+    isactive, inserttime, updatetime, insertby, updateby, school_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getScoreDetail" resultType="com.gao.channelcore.pojo.Score">
+    SELECT
+    sc.id,
+    sc.school_id AS schoolId,
+    sc.`name`,
+    sc.sex,
+    sc.age,
+    sc.height,
+    sc.weight,
+    sc.zfp,
+    sc.zfp_score AS zfpScore,
+    sc.ldty,
+    sc.ldty_score AS ldtyScore,
+    sc.wqty,
+    sc.wqty_score AS wqtyScore,
+    sc.lxt,
+    sc.lxt_score AS lxtScore,
+    sc.tqq,
+    sc.tqq_score AS tqqScore,
+    sc.phm,
+    sc.phm_score AS phmScore,
+    sc.total_score AS totalScore,
+    sc.avg_score AS avgScore,
+    sc.`level`,
+    sc.isactive,
+    sc.inserttime,
+    sc.updatetime,
+    sc.insertby,
+    sc.updateby,
+    sl.school_name as schoolName
+    FROM
+    score sc left join school sl on sc.school_id = sl.id
+    and sl.isactive = 1
+    WHERE sc.isactive = 1
+    <if test="name != null and name != ''">
+      and sc.`name` like concat('%',#{name},'%')
+    </if>
+    <if test="schoolName != null and schoolName != ''">
+      and sl.school_name = #{schoolName}
+    </if>
+    <if test="startTime != null and endTime !=''">
+      and sc.inserttime >= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and sc.inserttime &lt;= #{endTime}
+    </if>
+    order by sc.inserttime desc
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gao.channelcore.pojo.Score" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into score (school_id, `name`, sex,
+      age, height, weight, zfp, 
+      zfp_score, ldty, ldty_score, 
+      wqty, wqty_score, lxt, lxt_score, 
+      tqq, tqq_score,phm, phm_score, total_score,
+      avg_score, `level`, isactive,
+      inserttime, updatetime, insertby, 
+      updateby)
+    values (#{schoolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{age,jdbcType=REAL}, #{height,jdbcType=REAL}, #{weight,jdbcType=REAL}, #{zfp,jdbcType=REAL}, 
+      #{zfpScore,jdbcType=INTEGER}, #{ldty,jdbcType=REAL}, #{ldtyScore,jdbcType=INTEGER}, 
+      #{wqty,jdbcType=REAL}, #{wqtyScore,jdbcType=INTEGER}, #{lxt,jdbcType=REAL}, #{lxtScore,jdbcType=INTEGER}, 
+      #{tqq,jdbcType=REAL}, #{tqqScore,jdbcType=INTEGER},#{phm,jdbcType=REAL}, #{phmScore,jdbcType=INTEGER}, #{totalScore,jdbcType=INTEGER},
+      #{avgScore,jdbcType=REAL}, #{level,jdbcType=VARCHAR}, #{isactive,jdbcType=BIT}, 
+      #{inserttime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{insertby,jdbcType=VARCHAR}, 
+      #{updateby,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gao.channelcore.pojo.Score" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="name != null" >
+        `name`,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="weight != null" >
+        weight,
+      </if>
+      <if test="zfp != null" >
+        zfp,
+      </if>
+      <if test="zfpScore != null" >
+        zfp_score,
+      </if>
+      <if test="ldty != null" >
+        ldty,
+      </if>
+      <if test="ldtyScore != null" >
+        ldty_score,
+      </if>
+      <if test="wqty != null" >
+        wqty,
+      </if>
+      <if test="wqtyScore != null" >
+        wqty_score,
+      </if>
+      <if test="lxt != null" >
+        lxt,
+      </if>
+      <if test="lxtScore != null" >
+        lxt_score,
+      </if>
+      <if test="tqq != null" >
+        tqq,
+      </if>
+      <if test="tqqScore != null" >
+        tqq_score,
+      </if>
+      <if test="phm != null" >
+        phm,
+      </if>
+      <if test="phmScore != null" >
+        phm_score,
+      </if>
+      <if test="totalScore != null" >
+        total_score,
+      </if>
+      <if test="avgScore != null" >
+        avg_score,
+      </if>
+      <if test="level != null" >
+        `level`,
+      </if>
+      <if test="isactive != null" >
+        isactive,
+      </if>
+      <if test="inserttime != null" >
+        inserttime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="insertby != null" >
+        insertby,
+      </if>
+      <if test="updateby != null" >
+        updateby,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=REAL},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=REAL},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=REAL},
+      </if>
+      <if test="zfp != null" >
+        #{zfp,jdbcType=REAL},
+      </if>
+      <if test="zfpScore != null" >
+        #{zfpScore,jdbcType=INTEGER},
+      </if>
+      <if test="ldty != null" >
+        #{ldty,jdbcType=REAL},
+      </if>
+      <if test="ldtyScore != null" >
+        #{ldtyScore,jdbcType=INTEGER},
+      </if>
+      <if test="wqty != null" >
+        #{wqty,jdbcType=REAL},
+      </if>
+      <if test="wqtyScore != null" >
+        #{wqtyScore,jdbcType=INTEGER},
+      </if>
+      <if test="lxt != null" >
+        #{lxt,jdbcType=REAL},
+      </if>
+      <if test="lxtScore != null" >
+        #{lxtScore,jdbcType=INTEGER},
+      </if>
+      <if test="tqq != null" >
+        #{tqq,jdbcType=REAL},
+      </if>
+      <if test="tqqScore != null" >
+        #{tqqScore,jdbcType=INTEGER},
+      </if>
+      <if test="phm != null" >
+        #{phm,jdbcType=REAL},
+      </if>
+      <if test="phmScore != null" >
+        #{phmScore,jdbcType=INTEGER},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=INTEGER},
+      </if>
+      <if test="avgScore != null" >
+        #{avgScore,jdbcType=REAL},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        #{isactive,jdbcType=BIT},
+      </if>
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null" >
+        #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gao.channelcore.pojo.Score" >
+    update score
+    <set >
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=REAL},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=REAL},
+      </if>
+      <if test="weight != null" >
+        weight = #{weight,jdbcType=REAL},
+      </if>
+      <if test="zfp != null" >
+        zfp = #{zfp,jdbcType=REAL},
+      </if>
+      <if test="zfpScore != null" >
+        zfp_score = #{zfpScore,jdbcType=INTEGER},
+      </if>
+      <if test="ldty != null" >
+        ldty = #{ldty,jdbcType=REAL},
+      </if>
+      <if test="ldtyScore != null" >
+        ldty_score = #{ldtyScore,jdbcType=INTEGER},
+      </if>
+      <if test="wqty != null" >
+        wqty = #{wqty,jdbcType=REAL},
+      </if>
+      <if test="wqtyScore != null" >
+        wqty_score = #{wqtyScore,jdbcType=INTEGER},
+      </if>
+      <if test="lxt != null" >
+        lxt = #{lxt,jdbcType=REAL},
+      </if>
+      <if test="lxtScore != null" >
+        lxt_score = #{lxtScore,jdbcType=INTEGER},
+      </if>
+      <if test="tqq != null" >
+        tqq = #{tqq,jdbcType=REAL},
+      </if>
+      <if test="tqqScore != null" >
+        tqq_score = #{tqqScore,jdbcType=INTEGER},
+      </if>
+      <if test="phm != null" >
+        phm = #{phm,jdbcType=REAL},
+      </if>
+      <if test="tqqScore != null" >
+        phm_score = #{phmScore,jdbcType=INTEGER},
+      </if>
+      <if test="totalScore != null" >
+        total_score = #{totalScore,jdbcType=INTEGER},
+      </if>
+      <if test="avgScore != null" >
+        avg_score = #{avgScore,jdbcType=REAL},
+      </if>
+      <if test="level != null" >
+        `level` = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        isactive = #{isactive,jdbcType=BIT},
+      </if>
+      <if test="inserttime != null" >
+        inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null" >
+        insertby = #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null" >
+        updateby = #{updateby,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gao.channelcore.pojo.Score" >
+    update score
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      age = #{age,jdbcType=REAL},
+      height = #{height,jdbcType=REAL},
+      weight = #{weight,jdbcType=REAL},
+      zfp = #{zfp,jdbcType=REAL},
+      zfp_score = #{zfpScore,jdbcType=INTEGER},
+      ldty = #{ldty,jdbcType=REAL},
+      ldty_score = #{ldtyScore,jdbcType=INTEGER},
+      wqty = #{wqty,jdbcType=REAL},
+      wqty_score = #{wqtyScore,jdbcType=INTEGER},
+      lxt = #{lxt,jdbcType=REAL},
+      lxt_score = #{lxtScore,jdbcType=INTEGER},
+      tqq = #{tqq,jdbcType=REAL},
+      tqq_score = #{tqqScore,jdbcType=INTEGER},
+      phm = #{phm,jdbcType=REAL},
+      phm_score = #{phmScore,jdbcType=INTEGER},
+      total_score = #{totalScore,jdbcType=INTEGER},
+      avg_score = #{avgScore,jdbcType=REAL},
+      `level` = #{level,jdbcType=VARCHAR},
+      isactive = #{isactive,jdbcType=BIT},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      insertby = #{insertby,jdbcType=VARCHAR},
+      updateby = #{updateby,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

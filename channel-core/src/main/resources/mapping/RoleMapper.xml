@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gao.channelcore.business.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.gao.channelcore.pojo.Role">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="is_manger" jdbcType="VARCHAR" property="isManger" />
+    <result column="inserttime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="insertby" jdbcType="VARCHAR" property="insertby" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="updateby" jdbcType="VARCHAR" property="updateby" />
+    <result column="isactive" jdbcType="BIT" property="isactive" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gao.channelcore.pojo.Role">
+    <result column="desc" jdbcType="LONGVARCHAR" property="desc" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, name, is_manger, inserttime, insertby, updatetime, updateby, isactive
+  </sql>
+  <select id="getRoleBYParmas" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from role
+    where isactive = 1
+    <if test="name != null" >
+      and name = #{name}
+    </if>
+  </select>
+
+  <select id="getRoleDetail" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from role
+    where isactive = 1
+    <if test="name != null" >
+      and name like concat('%',#{name},'%')
+    </if>
+    <if test="startTime != null and endTime !=''">
+      and inserttime >= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and inserttime &lt;= #{endTime}
+    </if>
+    order by inserttime desc
+  </select>
+
+  <insert id="insert" parameterType="com.gao.channelcore.pojo.Role">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role (name, is_manger, inserttime, 
+      insertby, updatetime, updateby, 
+      isactive, desc)
+    values (#{name,jdbcType=VARCHAR}, #{isManger,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}, 
+      #{insertby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, 
+      #{isactive,jdbcType=BIT}, #{desc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gao.channelcore.pojo.Role">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="isManger != null">
+        is_manger,
+      </if>
+      <if test="inserttime != null">
+        inserttime,
+      </if>
+      <if test="insertby != null">
+        insertby,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="updateby != null">
+        updateby,
+      </if>
+      <if test="isactive != null">
+        isactive,
+      </if>
+      <if test="desc != null">
+        desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isManger != null">
+        #{isManger,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null">
+        #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null">
+        #{isactive,jdbcType=BIT},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.gao.channelcore.pojo.Role" >
+    update role
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        isactive = #{isactive,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

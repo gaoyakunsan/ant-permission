@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gao.channelcore.business.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.gao.channelcore.pojo.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="inserttime" property="inserttime" jdbcType="TIMESTAMP" />
+    <result column="insertby" property="insertby" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="updateby" property="updateby" jdbcType="VARCHAR" />
+    <result column="isactive" property="isactive" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, password, user_type, real_name, status, phone, email, inserttime, 
+    insertby, updatetime, updateby, isactive
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gao.channelcore.pojo.User" >
+    insert into user (id, user_name, password, 
+      user_type, real_name, status, 
+      phone, email, inserttime, 
+      insertby, updatetime, updateby, 
+      isactive)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}, 
+      #{insertby,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, 
+      #{isactive,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gao.channelcore.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="inserttime != null" >
+        inserttime,
+      </if>
+      <if test="insertby != null" >
+        insertby,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="updateby != null" >
+        updateby,
+      </if>
+      <if test="isactive != null" >
+        isactive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null" >
+        #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        #{isactive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gao.channelcore.pojo.User" >
+    update user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null" >
+        inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null" >
+        insertby = #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null" >
+        updateby = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        isactive = #{isactive,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gao.channelcore.pojo.User" >
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      insertby = #{insertby,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      updateby = #{updateby,jdbcType=VARCHAR},
+      isactive = #{isactive,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectBySelectiveFields" resultMap="BaseResultMap" parameterType="com.gao.channelcore.pojo.User" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where 1 = 1
+    <if test="userName != null" >
+      and user_name = #{userName,jdbcType=VARCHAR}
+    </if>
+    <if test="password != null" >
+      and password = #{password,jdbcType=VARCHAR}
+    </if>
+    <if test="userType != null" >
+      and user_type = #{userType,jdbcType=VARCHAR}
+    </if>
+    <if test="realName != null" >
+      and real_name = #{realName,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+      and status = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="phone != null" >
+      and phone = #{phone,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="isactive != null" >
+      and isactive = #{isactive,jdbcType=BIT}
+    </if>
+  </select>
+
+  <select id="getUserDetail" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where 1 = 1
+    <if test="userName != null" >
+      and user_name like concat('%',#{userName},'%')
+    </if>
+    <if test="status != null and status !=''">
+      and status = #{status}
+    </if>
+    <if test="startTime != null and endTime !=''">
+      and inserttime >= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and inserttime &lt;= #{endTime}
+    </if>
+    order by inserttime desc
+  </select>
+
+
+  <select id="getUserMenuByUserId" parameterType="string" resultType="Map">
+      SELECT DISTINCT
+					m.id,
+					m.parent_id AS parentId,
+					m.show_text AS text,
+					m.url,
+                    m.icon,
+					m.`status`,
+					m.type
+				FROM
+					`user` u,
+					role r,
+					role_user_link ul,
+					role_menu_link ml,
+					menu m
+				WHERE
+					m.`status` = '1'
+                 AND m.type = 1
+				AND ul.USER_ID = u.ID
+				AND ul.ROLE_ID = r.ID
+				AND r.ID = ml.ROLE_ID
+				AND ml.MENU_ID = m.id
+				AND ul.USER_ID = #{userId}
+                AND u.isactive = 1
+                AND r.isactive = 1
+                AND ul.isactive = 1
+                AND ml.isactive = 1
+                AND m.isactive = 1
+                        ORDER BY
+                            m.id ASC
+  </select>
+</mapper>

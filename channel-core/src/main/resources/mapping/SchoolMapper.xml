@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gao.channelcore.business.dao.SchoolMapper" >
+  <resultMap id="BaseResultMap" type="com.gao.channelcore.pojo.School" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="isactive" property="isactive" jdbcType="BIT" />
+    <result column="inserttime" property="inserttime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="insertby" property="insertby" jdbcType="VARCHAR" />
+    <result column="updateby" property="updateby" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, school_name, isactive, inserttime, updatetime, insertby, updateby
+  </sql>
+  <select id="getSchoolDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from school
+    where isactive = 1
+    <if test="schoolName != null and schoolName != ''">
+      and school_name like concat('%',#{schoolName},'%')
+    </if>
+    <if test="startTime != null and endTime !=''">
+      and updatetime >= #{startTime}
+    </if>
+    <if test="endTime !=null and endTime !=''">
+      and updatetime &lt;= #{endTime}
+    </if>
+    order by inserttime desc
+  </select>
+
+  <select id="selectSchoolByParams" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from school
+    where isactive = 1
+    <if test="schoolName != null and schoolName != ''">
+      and school_name = #{schoolName}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from school
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from school
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gao.channelcore.pojo.School" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into school (school_name, isactive, inserttime, 
+      updatetime, insertby, updateby
+      )
+    values (#{schoolName,jdbcType=VARCHAR}, #{isactive,jdbcType=BIT}, #{inserttime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{insertby,jdbcType=VARCHAR}, #{updateby,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gao.channelcore.pojo.School" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into school
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schoolName != null" >
+        school_name,
+      </if>
+      <if test="isactive != null" >
+        isactive,
+      </if>
+      <if test="inserttime != null" >
+        inserttime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="insertby != null" >
+        insertby,
+      </if>
+      <if test="updateby != null" >
+        updateby,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        #{isactive,jdbcType=BIT},
+      </if>
+      <if test="inserttime != null" >
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null" >
+        #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null" >
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gao.channelcore.pojo.School" >
+    update school
+    <set >
+      <if test="schoolName != null" >
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null" >
+        isactive = #{isactive,jdbcType=BIT},
+      </if>
+      <if test="inserttime != null" >
+        inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null" >
+        insertby = #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updateby != null" >
+        updateby = #{updateby,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gao.channelcore.pojo.School" >
+    update school
+    set school_name = #{schoolName,jdbcType=VARCHAR},
+      isactive = #{isactive,jdbcType=BIT},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      insertby = #{insertby,jdbcType=VARCHAR},
+      updateby = #{updateby,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

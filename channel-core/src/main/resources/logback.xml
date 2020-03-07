@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <configuration info="true"> 调试模式下，可输出logback的内部日志信息 -->
+<configuration>
+  <!-- <property resource="application.properties" /> -->
+  <appender name="STDOUT"
+    class="ch.qos.logback.core.ConsoleAppender">
+    <encoder
+      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level][%thread]:%logger{50}
+        [%method:%line] %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="InfoFile"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- <file>${logPath}/intelligentchannel/info/info.log</file> -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>info</level>
+    </filter>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${logPath}/intelligentchannel/info/info-%d{yyyy-MM-dd}-%i.log
+      </FileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>20MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <MaxHistory>10</MaxHistory>
+    </rollingPolicy>
+    <encoder
+      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] %logger:%L
+        x:\(%X\) - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="ErrorFile"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- <file>${logPath}/intelligentchannel/error/error.log</file> -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/intelligentchannel/error/error-%d{yyyy-MM-dd}-%i.log
+      </fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>20MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <MaxHistory>10</MaxHistory>
+    </rollingPolicy>
+    <encoder
+      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] %logger:%L
+        x:\(%X\) - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <appender name="WarnFile"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- <file>${logPath}/intelligentchannel/warn/warn.log</file> -->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>WARN</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logPath}/intelligentchannel/warn/warn-%d{yyyy-MM-dd}-%i.log
+      </fileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>20MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+      <MaxHistory>10</MaxHistory>
+    </rollingPolicy>
+    <encoder
+      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] %logger:%L
+        x:\(%X\) - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="ErrorFile" />
+    <appender-ref ref="WarnFile"/>
+    <appender-ref ref="InfoFile"/>
+  </root>
+</configuration>

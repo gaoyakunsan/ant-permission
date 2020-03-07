@@ -1,0 +1,31 @@
+.parentMenu span{
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:#5B627A;
+}
+.childMenu{
+    font-size:14px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:#8C93AA;
+}
+:global{
+    .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+        color:#FFBD00;
+        background:#fff !important;
+    }
+    .ant-menu-item-active{
+        color:#FFBD00 !important;
+    }
+    .ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after{
+        border-right: 2px solid #FFBD00 ;
+    }
+    .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left{
+        border-right:none;
+    }
+}
+.childMenu{
+    padding-left:27px !important;
+    width:220px;
+}

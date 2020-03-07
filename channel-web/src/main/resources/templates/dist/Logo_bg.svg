@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="220px" height="80px" viewBox="0 0 220 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>透明图层</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="220" height="80"></rect>
+        <linearGradient x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="流量管理平台" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="欢迎页">
+            <g id="左侧导航">
+                <g id="透明图层">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill-opacity="0" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    <path d="M-80,46.2142349 C-80,46.2142349 297.286309,95.4955143 200.763716,19.9094125 C104.241123,-55.6766892 -80,46.2142349 -80,46.2142349 Z" id="Path-2" fill-opacity="0.0399999991" fill="url(#linearGradient-3)" mask="url(#mask-2)" transform="translate(68.281455, 27.000000) scale(1, -1) rotate(-7.000000) translate(-68.281455, -27.000000) "></path>
+                    <path d="M-43,64.2142349 C-43,64.2142349 292.019064,113.495514 206.309861,37.9094125 C120.600658,-37.6766892 -43,64.2142349 -43,64.2142349 Z" id="Path-2" fill-opacity="0.0399999991" fill="url(#linearGradient-3)" mask="url(#mask-2)" transform="translate(88.669539, 45.000000) scale(-1, -1) translate(-88.669539, -45.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

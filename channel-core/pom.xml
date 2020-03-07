@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.gao</groupId>
+    <artifactId>tzn</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.gao</groupId>
+  <artifactId>channel-core</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>channel-core</name>
+  <description>Demo project for Spring Boot</description>
+
+  <properties>
+    <java.version>1.8</java.version>
+    <hive.version>1.1.0-cdh5.7.1</hive.version>
+    <slf4j.version>1.7.21</slf4j.version>
+    <hadoop.version>2.6.0-cdh5.7.1</hadoop.version>
+    <auto-value.version>1.4</auto-value.version>
+    <gax.version>1.45.0</gax.version>
+    <grpc.version>1.21.0</grpc.version>
+    <protobuf.version>3.5.1</protobuf.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>4.3.5.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <version>0.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.27</version>
+    </dependency>
+    <dependency>
+      <groupId>com.beust</groupId>
+      <artifactId>jcommander</artifactId>
+      <version>1.72</version>
+    </dependency>
+  </dependencies>
+
+  <!--<build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-maven-plugin</artifactId>
+        <version>1.3.2</version>
+        <configuration>
+          <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml
+          </configurationFile>
+          <overwrite>true</overwrite>
+          <verbose>true</verbose>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>-->
+</project>

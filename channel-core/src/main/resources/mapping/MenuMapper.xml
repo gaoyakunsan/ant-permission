@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gao.channelcore.business.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.gao.channelcore.pojo.Menu">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+    <result column="show_text" property="showText" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="VARCHAR"/>
+    <result column="url" property="url" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="icon" property="icon" jdbcType="VARCHAR"/>
+    <result column="type" property="type" jdbcType="VARCHAR"/>
+    <result column="operate_type" property="operateType" jdbcType="VARCHAR"/>
+    <result column="inserttime" property="inserttime" jdbcType="TIMESTAMP"/>
+    <result column="insertby" property="insertby" jdbcType="VARCHAR"/>
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+    <result column="updateby" property="updateby" jdbcType="VARCHAR"/>
+    <result column="isactive" property="isactive" jdbcType="BIT"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parent_id, show_text, status, url, sort, icon, type, operate_type, inserttime, 
+    insertby, updatetime, updateby, isactive
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllMenu" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from menu
+    where isactive = 1
+  </select>
+
+
+  <select id="selectAllMenuByMenuModel" resultType="com.gao.channelcore.model.MenuModel">
+    select
+    id as `key`,
+    parent_id as parentKey,
+    show_text as value,
+    show_text as defaultValue
+    from menu
+    where isactive = 1
+  </select>
+
+  <select id="selectAllMenuByMap" resultType="java.util.Map">
+    select
+    id as id,
+    id as `key`,
+    parent_id as parentKey,
+    show_text as value,
+    show_text as defaultValue,
+    url as `url`,
+    status as status,
+    show_text as showText,
+    sort as sort
+    from menu
+    where isactive = 1
+  </select>
+
+  <select id="selectAllMenuByTree" resultType="java.util.Map">
+    select
+    id as `key`,
+    parent_id as parentKey,
+    show_text as title
+    from menu
+    where isactive = 1
+  </select>
+
+  <select id="selectByParams" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from menu
+    where isactive = 1
+    <if test="showText != null">
+      and show_text = #{showText}
+    </if>
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gao.channelcore.pojo.Menu">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu (parent_id, show_text, status,
+    url, sort, icon, type,
+    operate_type, inserttime, insertby,
+    updatetime, updateby, isactive
+    )
+    values (#{parentId,jdbcType=INTEGER}, #{showText,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+    #{url,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+    #{operateType,jdbcType=VARCHAR}, #{inserttime,jdbcType=TIMESTAMP}, #{insertby,jdbcType=VARCHAR},
+    #{updatetime,jdbcType=TIMESTAMP}, #{updateby,jdbcType=VARCHAR}, #{isactive,jdbcType=BIT}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gao.channelcore.pojo.Menu">
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="showText != null">
+        show_text,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="operateType != null">
+        operate_type,
+      </if>
+      <if test="inserttime != null">
+        inserttime,
+      </if>
+      <if test="insertby != null">
+        insertby,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+      <if test="updateby != null">
+        updateby,
+      </if>
+      <if test="isactive != null">
+        isactive,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="showText != null">
+        #{showText,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null">
+        #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null">
+        #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null">
+        #{isactive,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gao.channelcore.pojo.Menu">
+    update menu
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="showText != null">
+        show_text = #{showText,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null">
+        operate_type = #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="inserttime != null">
+        inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insertby != null">
+        insertby = #{insertby,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        updateby = #{updateby,jdbcType=VARCHAR},
+      </if>
+      <if test="isactive != null">
+        isactive = #{isactive,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gao.channelcore.pojo.Menu">
+    update menu
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      show_text = #{showText,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      operate_type = #{operateType,jdbcType=VARCHAR},
+      inserttime = #{inserttime,jdbcType=TIMESTAMP},
+      insertby = #{insertby,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      updateby = #{updateby,jdbcType=VARCHAR},
+      isactive = #{isactive,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

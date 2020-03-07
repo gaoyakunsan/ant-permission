@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <!-- 数据库驱动:选择你的本地硬盘上面的数据库驱动包-->
+  <classPathEntry  location="D:\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+    <commentGenerator>
+      <property name="suppressDate" value="true"/>
+      <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+      <property name="suppressAllComments" value="true"/>
+    </commentGenerator>
+    <!--数据库连接驱动类,URL，用户名、密码 -->
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+      connectionURL="jdbc:mysql://localhost:3306/tzn" userId="root" password="root">
+      <property name="nullCatalogMeansCurrent" value="true" />
+    </jdbcConnection>
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+    <!-- 生成(实体)模型的包名和位置-->
+    <javaModelGenerator targetPackage="com.gao.channelcore.pojo" targetProject="src/main/java">
+      <property name="enableSubPackages" value="true"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+    <!-- 生成XML映射文件的包名和位置-->
+    <sqlMapGenerator targetPackage="mapping" targetProject="src/main/resources">
+      <property name="enableSubPackages" value="true"/>
+    </sqlMapGenerator>
+    <!-- 生成DAO接口的包名和位置-->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.gao.channelcore.business.dao"
+      targetProject="src/main/java">
+      <property name="enableSubPackages" value="true"/>
+    </javaClientGenerator>
+    <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
+    <!--<table tableName="rpt_baihang_credit_afterloan" domainObjectName="CreditAfterloan"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="rpt_baihang_credit_beforeloan" domainObjectName="CreditBeforloan"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="execlog" domainObjectName="execlog"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="rpt_baihang_apply_info" domainObjectName="ApplyInfo"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="rpt_baihang_user_info" domainObjectName="UserInfo"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="channel_advertiser_id" domainObjectName="ChannelAdvertiserId"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="channel_retrytask_log" domainObjectName="RetrytaskLog"
+           enableCountByExample="false"
+           enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+           selectByExampleQueryId="false"></table>
+    <table tableName="channel_friend_advertiser" domainObjectName="FriendAdvertiser"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="channel_adplan" domainObjectName="Adplan"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="channel_adplanput" domainObjectName="AdplanPut"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="channel_adplan_m_log" domainObjectName="AdplanMLog"
+      enableCountByExample="false"
+      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      selectByExampleQueryId="false"></table>
+    <table tableName="channel_column_config" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>-->
+   <!-- <table tableName="channel_public_strategy" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table tableName="channel_public_strategy_detail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table tableName="channel_adplan_strategy_log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table domainObjectName="TencentAccount" tableName="channel_tencent_account" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table domainObjectName="TencentToken" tableName="channel_tencent_token" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table domainObjectName="AdvertiserInfo" tableName="channel_advertiser_info" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table domainObjectName="CampaignInfo" tableName="channel_campaign_info" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="AdvertiserCampaignMLog" tableName="channel_advertiser_campaign_m_log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/><table domainObjectName="ChannelVideo" tableName="channel_video" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannleSourceid" tableName="channle_sourceid" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="CreateAdLog" tableName="channel_create_ad_log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="CustomCreatead" tableName="channel_custom_createad" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannelLoginLog" tableName="channel_login_log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannelPushAdvertisers" tableName="channel_push_advertisers" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannelInitvideoLog" tableName="channel_initvideo_log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannelScheduletime" tableName="channel_scheduletime" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannelScheduletimeLog" tableName="channel_scheduletime_log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="ChannelAdplanInfo" tableName="channel_adplan_info" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="School" tableName="school" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="Score" tableName="score" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="Role" tableName="Role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="Menu" tableName="menu" enableCountByExample="false" enableUpdateByExample="false" enableSelectByExample="false" enableDeleteByExample="false" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="RoleMenu" tableName="role_menu_link" enableCountByExample="false" enableUpdateByExample="false" enableSelectByExample="false" enableDeleteByExample="false" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    <table domainObjectName="RoleUser" tableName="role_user_link" enableCountByExample="false" enableUpdateByExample="false" enableSelectByExample="false" enableDeleteByExample="false" >
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+    </table>
+  </context>
+</generatorConfiguration>
