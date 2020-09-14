@@ -1,5 +1,6 @@
 package com.gao.channelcore.business.dao;
 
+import com.gao.channelcore.pojo.Menu;
 import com.gao.channelcore.pojo.User;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,8 @@ public interface UserMapper {
     User selectBySelectiveFields(User record);
 
     List<Map<String, Object>> getUserMenuByUserId(String userId);
+
+    List<Menu> getUserMenuButton(String userId);
 
     List<User> getUserDetail(Map<String, Object> map);
 }

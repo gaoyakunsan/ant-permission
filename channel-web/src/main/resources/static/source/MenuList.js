@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {Tree, Icon, Input, Row, Col, Select, Button, Popconfirm} from 'antd';
+import {Tree, Icon, Input, Row, Col, Select, Button, Popconfirm, Modal} from 'antd';
 import styles from '../rescource/css/EditableTree.less';
 import commonUtil from "../utils/utils";
 import {Form, message} from "antd/lib/index";
 import Util from "../utils/utils";
+import {
+    FolderOutlined,
+    FilterOutlined
+} from '@ant-design/icons';
 
 const {TreeNode} = Tree;
 
@@ -12,47 +16,23 @@ class AddEditForm extends Component {
 
     componentDidMount() {
         this.props.onRef(this)
-    }
-
-    setMenuData1 = (value) => {
-        console.log(6666);
         const {setFieldsValue} = this.props.form;
-        console.log(value);
-        if (value) {
-            const {showText, sort, url, id, status} = value;
-            if ("1" == status) {
-                setFieldsValue({"status": "启用"})
-            } else {
-                setFieldsValue({"status": "禁用"})
-            }
-            setFieldsValue({showText, sort, url, id});
+        const editValue = this.props.editValue;
+        console.log("11111111");
+        console.log(editValue);
+        if (editValue) {
+            const {showText, sort, url, id, status, type, buttonId} = editValue;
+            setFieldsValue({showText, sort, url, id, status, type, buttonId});
+            //setFieldsValue(editValue);
         }
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                Util.post('/menu/updateMenu', values,
-                    success => {
-                        if (success.code == 1) {
-                            message.success("更新菜单成功");
-                            this.props.getAllMenu();
-                        } else {
-                            message.error(error.msg);
-                        }
-                    }, error => {
-                        message.error(error.msg);
-                    });
-            }
-        });
-    }
 
     render() {
         const formItemLayout = {
             labelCol: {
-                xs: {span: 24},
-                sm: {span: 8}
+                xs: {span: 18},
+                sm: {span: 5}
             },
             wrapperCol: {
                 xs: {span: 24},
@@ -61,17 +41,32 @@ class AddEditForm extends Component {
         };
         const {getFieldDecorator, setFieldsValue} = this.props.form;
         return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form {...formItemLayout}>
                 <Row gutter={24}>
                     <Form.Item style={{display: 'none'}}>
                         {getFieldDecorator('id')(
                             <Input/>
                         )}
                     </Form.Item>
-                    <Form.Item label="菜单名称">
+                    <Form.Item label="名称">
                         {getFieldDecorator('showText', {
-                            rules: [{required: true, message: '请输入菜单名称'}],
+                            rules: [{required: true, message: '请输入名称'}],
                         })(
+                            <Input style={{width: '100%'}} autoComplete="off"/>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="类型">
+                        {getFieldDecorator('type', {
+                            rules: [{required: true, message: '请选择类型'}], initialValue: "1"
+                        })(
+                            <Select>
+                                <Option value="1">菜单</Option>
+                                <Option value="2">按钮</Option>
+                            </Select>
+                        )}
+                    </Form.Item>
+                    <Form.Item label="按钮唯一键">
+                        {getFieldDecorator('buttonId')(
                             <Input style={{width: '100%'}} autoComplete="off"/>
                         )}
                     </Form.Item>
@@ -98,11 +93,6 @@ class AddEditForm extends Component {
                             </Select>
                         )}
                     </Form.Item>
-                    <Form.Item>
-                        <Button style={{marginLeft: 380}} type="primary" htmlType="submit">
-                            保存
-                        </Button>
-                    </Form.Item>
                 </Row>
             </Form>
         );
@@ -120,7 +110,8 @@ class EditableTree extends Component {
             parentKey: -1,
             isEditable: false,
             url: '',
-            children: []
+            children: [],
+            type: '',
         }
     ];
     state = {
@@ -128,6 +119,9 @@ class EditableTree extends Component {
         data: this.data,
         editValue: '',
         autoExpandParent: true,
+        newKey: Util.getGuid(),
+        visible: false,
+        parentId: ''
     };
 
     constructor(props) {
@@ -147,7 +141,7 @@ class EditableTree extends Component {
                 this.onExpand([]); // 手动触发，否则会遇到第一次添加子节点不展开的Bug
                 commonUtil.getOld("/menu/getAllMenuId", {}, success => {
                     if (success.code == "1") {
-                        let myArray=[0]
+                        let myArray = [0]
                         myArray = success.data;
                         myArray.push("0");
                         this.setState({"expandedKeys": myArray});
@@ -199,7 +193,7 @@ class EditableTree extends Component {
             item.title = (
                 <div className={styles.titleContainer}>
                     <span>
-                        {item.value}
+                        {item.type == 1 ? <FolderOutlined/> : <FilterOutlined/>}&nbsp;{item.value}
                     </span>
                     <span className={styles.operationField}>
                         <Icon style={{marginLeft: 10}} type='edit'
@@ -229,40 +223,25 @@ class EditableTree extends Component {
     })
 
     onAdd = (e) => {
-        console.log('add');
-        console.log(e);
-        //后台保存数据
-        commonUtil.post('/menu/saveMenu', {"parentId": e}, success => {
-            if (success.code == 1) {
-                // 防止expandedKeys重复
-                // Tip: Must have, expandedKeys should not be reduplicative
-                if (this.state.expandedKeys.indexOf(e) === -1) {
-                    this.state.expandedKeys.push(e);
-                }
-                console.log("id:" + success.data);
-                this.addNode(e, this.data, success.data);
-                this.setState({
-                    data: this.data
-                });
-            } else {
-                message.error("新增菜单失败");
-            }
-        }, error => {
-            message.error("新增菜单失败");
+        this.setState({
+            visible: true,
+            title: "新增",
+            editValue: null,
+            newKey: Util.getGuid(),
+            parentId: e
         });
-        //
     }
 
     addNode = (parentKey, data, key) => data.map((item) => {
         if (item.key === parentKey) {
             if (item.children) {
                 item.children.push({
-                    value: 'default',
-                    defaultValue: 'default',
+                    value: item.showText,
+                    defaultValue: item.showText,
                     key: key, // 这个 key 应该是唯一的。 Tip: The key should be unique
                     parentKey: parentKey,
                     isEditable: false,
-                    showText: 'default',
+                    showText: item.showText,
                     status: '1',
                     id: key,
                     parentId: parentKey
@@ -270,12 +249,12 @@ class EditableTree extends Component {
             } else {
                 item.children = [];
                 item.children.push({
-                    value: 'default',
-                    defaultValue: 'default',
+                    value: item.showText,
+                    defaultValue: item.showText,
                     key: key,
                     parentKey: parentKey,
                     isEditable: false,
-                    showText: 'default',
+                    showText: item.showText,
                     status: '1',
                     id: key,
                     parentId: parentKey
@@ -309,13 +288,15 @@ class EditableTree extends Component {
     })
 
     onEdit = (item) => {
-        console.log('edit');
-        this.child.setMenuData1(item);
-
-        /*this.editNode(key, this.data);
         this.setState({
-          data: this.data
-        });*/
+            visible: true,
+            title: "修改",
+            editValue: item,
+            newKey: Util.getGuid(),
+        });
+
+        /*console.log('edit');
+        this.child.setMenuData1(item);*/
     }
 
     editNode = (key, data) => data.map((item) => {
@@ -383,10 +364,69 @@ class EditableTree extends Component {
             this.changeNode(key, value, item.children)
         }
     })
+    handleCancel = e => {
+        this.setState({
+            visible: false,
+        });
+    };
+
+    handleOk = () => {
+        let parentId = this.state.parentId;
+        this.refs.getFormVlaue.validateFields((err, values) => {
+            if (!err) {
+                let id = values["id"]
+                if (id) {
+                    Util.post('/menu/updateMenu', values,
+                        success => {
+                            if (success.code == 1) {
+                                message.success("更新成功");
+                                this.getAllMenu();
+                                this.handleCancel();
+                            } else {
+                                message.error(error.msg);
+                            }
+                        }, error => {
+                            message.error(error.msg);
+                        });
+                } else {
+                    values["parentId"] = parentId;
+                    commonUtil.post('/menu/saveMenu', values, success => {
+                        if (success.code == 1) {
+                            // 防止expandedKeys重复
+                            // Tip: Must have, expandedKeys should not be reduplicative
+                            if (this.state.expandedKeys.indexOf(parentId) === -1) {
+                                this.state.expandedKeys.push(parentId);
+                            }
+                            console.log("id:" + success.data);
+                            //this.data[0].showText = values["showText"];
+                            //this.addNode(parentId, this.data, success.data);
+                            this.getAllMenu();
+                            this.setState({
+                                data: this.data
+                            });
+                            this.handleCancel();
+                        } else {
+                            message.error("新增失败");
+                        }
+                    }, error => {
+                        message.error("新增失败");
+                    });
+                }
+            }
+        })
+    }
 
     render() {
         return (
             <div>
+                <Modal key={this.state.newKey} title={this.state.title}
+                       visible={this.state.visible}
+                       onOk={this.handleOk}
+                       onCancel={this.handleCancel}>
+                    <WrappedAddEditForm ref="getFormVlaue" onRef={(ref) => {
+                        this.child = ref
+                    }} getAllMenu={this.getAllMenu} editValue={this.state.editValue}/>
+                </Modal>
                 <Row>
                     <Col span={8}>
                         <div>
@@ -395,11 +435,11 @@ class EditableTree extends Component {
                             </Tree>
                         </div>
                     </Col>
-                    <Col span={8}>
+                    {/*<Col span={8}>
                         <div style={{marginTop: 25}}>
                             <WrappedAddEditForm onRef={(ref) => {this.child = ref}} getAllMenu={this.getAllMenu}/>
                         </div>
-                    </Col>
+                    </Col>*/}
                 </Row>
             </div>
         )

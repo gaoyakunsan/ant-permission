@@ -1,14 +1,21 @@
 package com.gao.channelcore.utils;
 
+import com.gao.channelcore.business.dao.UserMapper;
+import com.gao.channelcore.business.service.UserService;
+import com.gao.channelcore.pojo.Menu;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -40,7 +47,7 @@ public class JwtHelper {
      * @return
      */
     public static String createJWT(String name, Integer userId,
-                                   String audience, String issuer, long TTLMillis, String base64Security){
+                                   String audience, String issuer, long TTLMillis, String base64Security, UserMapper userMapper){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         long nowMillis = System.currentTimeMillis();
@@ -50,10 +57,15 @@ public class JwtHelper {
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64Security);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
+        //存放此用户所有的菜单权限
+        List<Menu> list = userMapper.getUserMenuButton(String.valueOf(userId));
+        List<String> liststr =list.stream().map(Menu::getButtonId).collect(Collectors.toList());
+
         //添加构成JWT的参数
         JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
                 .claim("unique_name", name)
                 .claim("userid", userId)
+                .claim("userButtonId", liststr)
                 .setIssuer(issuer)
                 .setAudience(audience)
                 .signWith(signatureAlgorithm, signingKey);

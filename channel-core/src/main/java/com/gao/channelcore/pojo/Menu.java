@@ -10,6 +10,8 @@ public class Menu {
 
   private String showText;
 
+  private String buttonId;
+
   private String status;
 
   private String url;
@@ -142,5 +144,13 @@ public class Menu {
 
   public void setIsactive(Boolean isactive) {
     this.isactive = isactive;
+  }
+
+  public String getButtonId() {
+    return buttonId;
+  }
+
+  public void setButtonId(String buttonId) {
+    this.buttonId = buttonId;
   }
 }

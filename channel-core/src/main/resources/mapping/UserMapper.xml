@@ -269,4 +269,29 @@
                         ORDER BY
                             m.id ASC
   </select>
+
+  <select id="getUserMenuButton" parameterType="string" resultType="com.gao.channelcore.pojo.Menu">
+      SELECT DISTINCT
+        m.`button_id` AS buttonId
+      FROM
+        `user` u,
+        role r,
+        role_user_link ul,
+        role_menu_link ml,
+        menu m
+      WHERE m.`status` = '1'
+        AND m.type = 2
+        AND ul.USER_ID = u.ID
+        AND ul.ROLE_ID = r.ID
+        AND r.ID = ml.ROLE_ID
+        AND ml.MENU_ID = m.id
+        AND ul.USER_ID = #{userId}
+        AND u.isactive = 1
+        AND r.isactive = 1
+        AND ul.isactive = 1
+        AND ml.isactive = 1
+        AND m.isactive = 1
+      ORDER BY m.id ASC
+  </select>
+
 </mapper>

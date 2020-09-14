@@ -161,7 +161,13 @@ class ScorelList extends React.Component {
         totalNum: null,
         filter: null
     };
+    componentDidMount() {
+        let userButtonId = localStorage.userButtonId;
+        console.log('222222')
+        console.log(userButtonId)
 
+
+    }
     changeStateData = (result, filter) => {
         this.setState({
             data: result.data,
@@ -323,18 +329,22 @@ class ScorelList extends React.Component {
             render: (text, record) => {
                 return (
                     <div>
-                        <Popconfirm title="确认删除？" okText="确认" cancelText="取消"
-                                    onConfirm={this.confirm.bind(this,
-                                        record.id)}>
-                            <a>删除</a>
-                        </Popconfirm>
-                        &nbsp;|&nbsp;
-                        <span>
+                        <div style={{float: 'left', display: localStorage.userButtonId.indexOf("scoredel") != -1 ? 'bolck' : 'none'}}>
+                            <Popconfirm title="确认删除？" okText="确认" cancelText="取消"
+                                        onConfirm={this.confirm.bind(this, record.id)}>
+                                <a>删除</a>
+                            </Popconfirm>
+                            &nbsp;&nbsp;
+                        </div>
+                        <div>
+                            <span>
                                 <Link to={{
                                     pathname: '/score/detail',
                                     query: record
                                 }}>详情</Link>
                         </span>
+                        </div>
+
                     </div>
 
                 )

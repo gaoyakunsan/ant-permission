@@ -3,17 +3,11 @@ package com.gao.channelcore.business.service;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.gao.channelcore.business.dao.UserMapper;
-import com.gao.channelcore.pojo.Score;
+import com.gao.channelcore.pojo.Menu;
 import com.gao.channelcore.pojo.User;
 import com.gao.channelcore.utils.CommUtil;
 import com.gao.channelcore.utils.JwtHelper;
 import com.gao.channelcore.utils.ServiceUtil;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -21,6 +15,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -55,13 +54,9 @@ public class UserService {
             if (userInfo == null) {
                 return JSONObject.toJSONString(ServiceUtil.returnError("用户名密码错误!"));
             }
-            Date begingTimeCorp = new Date();
-      /*Boolean status = CommUtil.checkDomain("CORP\\" + name, pas, domainIp, domianPort);
-      Date endTimeCorp = new Date();
-      logger.info("get CORP use time:{}", endTimeCorp.getTime() - begingTimeCorp.getTime());*/
             Date begingTime = new Date();
             String jwtToken = JwtHelper.createJWT(userInfo.getUserName(), userInfo.getId(), clientId,
-                    name, expiresSecond * 1000, base64Secret);
+                    name, expiresSecond * 1000, base64Secret, userMapper);
             Date endTime = new Date();
             logger.info("get token use time:{}", endTime.getTime() - begingTime.getTime());
             return JSONObject.toJSONString(ServiceUtil.returnSuccess(jwtToken));
@@ -91,7 +86,7 @@ public class UserService {
         return JSONObject.toJSONString(ServiceUtil.returnSuccessData(pageInfo));
     }
 
-    public String getAllUser(){
+    public String getAllUser() {
         List<User> list = userMapper.getUserDetail(new HashMap<>());
         return JSONObject.toJSONString(ServiceUtil.returnSuccessWithData(list));
     }
@@ -103,11 +98,11 @@ public class UserService {
         User userDb = userMapper.selectBySelectiveFields(userParams);
         if (userDb != null) {
             return JSONObject.toJSONString(ServiceUtil.returnError("此登录名已存在"));
-        }else{
-            if("启用".equals(user.getStatus())){
+        } else {
+            if ("启用".equals(user.getStatus())) {
                 user.setStatus("1");
             }
-            if("禁用".equals(user.getStatus())){
+            if ("禁用".equals(user.getStatus())) {
                 user.setStatus("0");
             }
             userMapper.insertSelective(user);
@@ -115,11 +110,11 @@ public class UserService {
         }
     }
 
-    public void updateByPrimaryKeySelective(User user){
-        if("启用".equals(user.getStatus())){
+    public void updateByPrimaryKeySelective(User user) {
+        if ("启用".equals(user.getStatus())) {
             user.setStatus("1");
         }
-        if("禁用".equals(user.getStatus())){
+        if ("禁用".equals(user.getStatus())) {
             user.setStatus("0");
         }
         userMapper.updateByPrimaryKeySelective(user);

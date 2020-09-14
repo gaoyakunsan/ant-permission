@@ -59,26 +59,17 @@ public class MenuController {
         Menu menuParam = new Menu();
         menuParam.setShowText(menu.getShowText());
         List<Menu> menuDB = menuService.selectByParams(menuParam);
-        if (menuDB != null && menuDB.size() > 0) {
+        if (menuDB != null && menuDB.size() > 0 && !menu.getShowText().equals(menuDB.get(0).getShowText())) {
             return JSONObject.toJSONString(ServiceUtil.returnError("此菜单名已存在"));
         } else {
-            if("启用".equals(menu.getStatus())){
-                menu.setStatus("1");
-            }
-            if("禁用".equals(menu.getStatus())){
-                menu.setStatus("0");
-            }
             menuService.updateByPrimaryKeySelective(menu);
-            return JSONObject.toJSONString(ServiceUtil.returnSuccess());
         }
+        return JSONObject.toJSONString(ServiceUtil.returnSuccess());
     }
 
     @RequestMapping("saveMenu")
     @ResponseBody
     public String saveMenu(@RequestBody Menu menu) {
-        menu.setShowText("deauft");
-        menu.setStatus("1");
-        menu.setType("1");
         Integer id = menuService.insertSelective(menu);
         return JSONObject.toJSONString(ServiceUtil.returnSuccessData(id));
     }

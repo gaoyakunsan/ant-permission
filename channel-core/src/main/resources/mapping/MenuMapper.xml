@@ -56,7 +56,9 @@
     url as `url`,
     status as status,
     show_text as showText,
-    sort as sort
+    sort as sort,
+    `type` as `type`,
+    button_id as buttonId
     from menu
     where isactive = 1
   </select>
@@ -115,6 +117,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="buttonId != null">
+        button_id,
+      </if>
       <if test="url != null">
         url,
       </if>
@@ -155,6 +160,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="buttonId != null">
+        #{buttonId,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
@@ -200,11 +208,17 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="buttonId != null">
+        button_id = #{buttonId,jdbcType=VARCHAR},
+      </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
         sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="buttonId != null">
+        button_id = #{buttonId,jdbcType=INTEGER},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
