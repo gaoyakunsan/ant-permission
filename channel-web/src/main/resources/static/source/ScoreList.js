@@ -19,15 +19,10 @@ import {
 } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import '../common.less'
-import moment from 'moment'
 import Util from "../utils/utils";
 import {Link} from "react-router-dom";
 
 const {RangePicker} = DatePicker;
-const InputGroup = Input.Group;
-
-const {Option} = Select;
-const {TextArea} = Input;
 
 const loadScoreData = {
     loadScoreData: function (values, successcallback) {
@@ -329,7 +324,7 @@ class ScorelList extends React.Component {
             render: (text, record) => {
                 return (
                     <div>
-                        <div style={{float: 'left', display: localStorage.userButtonId.indexOf("scoredel") != -1 ? 'bolck' : 'none'}}>
+                        <div style={{float: 'left', display: Util.containValue(localStorage.userButtonId, "scoredel") == true ? 'bolck' : 'none'}}>
                             <Popconfirm title="确认删除？" okText="确认" cancelText="取消"
                                         onConfirm={this.confirm.bind(this, record.id)}>
                                 <a>删除</a>
@@ -344,9 +339,7 @@ class ScorelList extends React.Component {
                                 }}>详情</Link>
                         </span>
                         </div>
-
                     </div>
-
                 )
             }
         }];

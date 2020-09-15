@@ -13,20 +13,15 @@ const {TreeNode} = Tree;
 
 class AddEditForm extends Component {
 
-
     componentDidMount() {
         this.props.onRef(this)
         const {setFieldsValue} = this.props.form;
         const editValue = this.props.editValue;
-        console.log("11111111");
-        console.log(editValue);
         if (editValue) {
             const {showText, sort, url, id, status, type, buttonId} = editValue;
-            setFieldsValue({showText, sort, url, id, status, type, buttonId});
-            //setFieldsValue(editValue);
+            setFieldsValue({buttonId, showText, sort, url, id, status, type});
         }
     }
-
 
     render() {
         const formItemLayout = {
@@ -39,7 +34,7 @@ class AddEditForm extends Component {
                 sm: {span: 14}
             }
         };
-        const {getFieldDecorator, setFieldsValue} = this.props.form;
+        const {getFieldDecorator, getFieldValue} = this.props.form;
         return (
             <Form {...formItemLayout}>
                 <Row gutter={24}>
@@ -66,18 +61,29 @@ class AddEditForm extends Component {
                         )}
                     </Form.Item>
                     <Form.Item label="按钮唯一键">
-                        {getFieldDecorator('buttonId')(
+                        {getFieldDecorator('buttonId', {
+                            rules: [{
+                                required: getFieldValue("type") == "2" ? true : false,
+                                message: '请输入按钮唯一键'
+                            }]
+                        })(
                             <Input style={{width: '100%'}} autoComplete="off"/>
                         )}
                     </Form.Item>
-                    <Form.Item label="URL">
-                        {getFieldDecorator('url')(
-                            <Input style={{width: '100%'}} autoComplete="off"/>
-                        )}
-                    </Form.Item>
+                    {
+                        getFieldValue("type") == "1" ? (
+                            <Form.Item label="URL">
+                                {getFieldDecorator('url', {
+                                    rules: [{required: getFieldValue("type") == "1" ? true : false, message: '请输入URL'}]
+                                })(
+                                    <Input style={{width: '100%'}} autoComplete="off"/>
+                                )}
+                            </Form.Item>
+                        ) : ''
+                    }
                     <Form.Item label="排序">
                         {getFieldDecorator('sort', {
-                            rules: [{required: true, message: '请输入排序'}],
+                            rules: [{message: '请输入排序'}],
                         })(
                             <Input style={{width: '100%'}} autoComplete="off"/>
                         )}
@@ -130,8 +136,6 @@ class EditableTree extends Component {
 
     componentDidMount() {
         this.getAllMenu();
-        // Tip: Must have, or the parent node will not expand automatically when you first add a child node
-        console.log(this.data);
     }
 
     getAllMenu = () => {
@@ -294,7 +298,7 @@ class EditableTree extends Component {
             editValue: item,
             newKey: Util.getGuid(),
         });
-
+        console.log(item)
         /*console.log('edit');
         this.child.setMenuData1(item);*/
     }
@@ -418,7 +422,7 @@ class EditableTree extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{marginLeft: '1%', marginTop: '0.5%'}}>
                 <Modal key={this.state.newKey} title={this.state.title}
                        visible={this.state.visible}
                        onOk={this.handleOk}
@@ -435,11 +439,6 @@ class EditableTree extends Component {
                             </Tree>
                         </div>
                     </Col>
-                    {/*<Col span={8}>
-                        <div style={{marginTop: 25}}>
-                            <WrappedAddEditForm onRef={(ref) => {this.child = ref}} getAllMenu={this.getAllMenu}/>
-                        </div>
-                    </Col>*/}
                 </Row>
             </div>
         )
