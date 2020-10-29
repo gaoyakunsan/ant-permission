@@ -272,7 +272,8 @@
 
   <select id="getUserMenuButton" parameterType="string" resultType="com.gao.channelcore.pojo.Menu">
       SELECT DISTINCT
-        m.`button_id` AS buttonId
+        m.`button_id` AS buttonId,
+        m.id
       FROM
         `user` u,
         role r,
