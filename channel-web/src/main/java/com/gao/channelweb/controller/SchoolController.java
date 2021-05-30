@@ -2,6 +2,7 @@ package com.gao.channelweb.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.gao.channelcore.business.service.MenuService;
 import com.gao.channelcore.business.service.SchoolService;
 import com.gao.channelcore.business.service.ScoreService;
 import com.gao.channelcore.business.service.UserService;
@@ -30,12 +31,15 @@ public class SchoolController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MenuService menuService;
+
 
 
     @RequestMapping("getSchoolDetail")
     @ResponseBody
     public String getSchoolDetail(@RequestParam Map<String, Object> map) {
-
+        //menuService.getConnection();
         //处理前端排序字段  前端传入的为ascend descend
         if (map.containsKey("sortOrder") && map.get("sortOrder") != null) {
             String order = map.get("sortOrder").toString().split("end")[0];

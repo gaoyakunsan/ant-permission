@@ -13,7 +13,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/tzn?allowMultiQueries=true&useUnicode=yes&characterEncoding=utf8&serverTimezone=GMT%2B8
     username: root
-    password: root
+    password: 1qaz!QAZ
     #最大活跃数
     maxActive: 20
     #初始化数量
